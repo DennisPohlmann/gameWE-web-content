@@ -7,13 +7,25 @@ templates/<name>/theme.css       required: CSS variables (modern-*: also layout 
 templates/<name>/chart.json      chart colours
 templates/<name>/template.json   display name (de, en)
 generator/modern-variants.mjs.txt  the VARIANTS lines of the modern-* templates
-                                 from scripts/modern-templates.mjs of gameWE-web v0.12.5
+                                 for scripts/modern-templates.mjs of gameWE-web
 tools/check-templates.sh         checks every template
 tools/package.sh                 builds the release archives and SHA256SUMS
 ```
 
 How templates work and all variables: `templates/README.md` of
 [gameWE-web](https://github.com/DennisPohlmann/gameWE-web/blob/main/templates/README.md).
+
+## Updating the modern templates to a newer gameWE-web
+
+The `modern-*` files are generated, never edited by hand. Copy
+`scripts/modern-templates.mjs` and `scripts/modern-templates/layout.css` of
+the gameWE-web release into an empty folder (`scripts/` below it), put the
+lines of `generator/modern-variants.mjs.txt` into its `VARIANTS` (instead of
+the built-in ones), run `node scripts/modern-templates.mjs` there and copy
+the generated `templates/modern-*/` files over the ones in `templates/`.
+Name the gameWE-web version in `docs/INSTALLATION.md` (notes on the modern
+templates). The classic and game templates hold only CSS variables; compare
+them with the variables of gameWE-web's built-in `orange/theme.css`.
 
 ## Checks
 

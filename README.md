@@ -119,5 +119,6 @@ make verify    # check dist/ against dist/SHA256SUMS
 
 gameWE is free software under the **GNU General Public License version 3 or
 later**, see [LICENSE](LICENSE). The templates taken over from gameWE-web
-are unchanged copies of v0.12.5 (commit 7509a86), which is under the same
+are copies of v0.12.5 (commit 7509a86); the `modern-*` ones are regenerated
+with the layout of newer gameWE-web releases, which are under the same
 license.
