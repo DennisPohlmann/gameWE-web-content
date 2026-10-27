@@ -1,8 +1,9 @@
 name: build
 
-# Every push to main checks the templates and packs each one into its own
-# gamewe-web-template-<name>-<version>.tar.gz plus SHA256SUMS, kept as a
-# workflow artifact. semantic-release then reads the Conventional Commits
+# Every push to main checks the templates and map pictures and packs each
+# template into its own gamewe-web-template-<name>-<version>.tar.gz, each game's
+# map pictures into gamewe-web-maps-<game>-<version>.tar.gz, plus SHA256SUMS,
+# kept as a workflow artifact. semantic-release then reads the Conventional Commits
 # since the last tag: for a feat, fix or breaking change it bumps VERSION,
 # writes CHANGELOG.md, commits that as "chore(release): vX.Y.Z [skip ci]",
 # tags vX.Y.Z and creates the GitHub release; publish then packs that tag and
@@ -24,14 +25,14 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # tags and the last commit time, for the archives
-      - name: check and package the templates
+      - name: check and package the templates and map pictures
         run: |
           make check
           make package
           make verify
       - uses: actions/upload-artifact@v7
         with:
-          name: gamewe-web-templates
+          name: gamewe-web-content
           path: |
             dist/*.tar.gz
             dist/SHA256SUMS

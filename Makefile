@@ -1,7 +1,8 @@
-# gameWE web templates
+# gameWE web content
 #
-#   make check     check every template in templates/
-#   make package   dist/gamewe-web-template-<name>-<version>.tar.gz and dist/SHA256SUMS
+#   make check     check every template in templates/ and every map picture in maps/
+#   make package   dist/gamewe-web-template-<name>-<version>.tar.gz,
+#                  dist/gamewe-web-maps-<game>-<version>.tar.gz and dist/SHA256SUMS
 #   make verify    check dist/ against dist/SHA256SUMS
 #   make clean     remove dist/
 
@@ -13,6 +14,7 @@ all: check package
 
 check:
 	bash tools/check-templates.sh
+	bash tools/check-maps.sh
 
 package: check
 	bash tools/package.sh $(VERSION)

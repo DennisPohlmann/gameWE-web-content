@@ -1,9 +1,9 @@
 ---
 name: security-check
-description: Security checklist for every change in the gameWE web templates (theme.css, chart.json, template.json, packaging scripts, release workflow). Use before finishing, committing or opening a PR for any change in this repository.
+description: Security checklist for every change in the gameWE web content (theme.css, chart.json, template.json, packaging scripts, release workflow). Use before finishing, committing or opening a PR for any change in this repository.
 ---
 
-# Security check for a change (gameWE web templates)
+# Security check for a change (gameWE web content)
 
 Scope: the current diff (`git diff` plus staged and untracked files). Walk
 the points below, only as deep as the diff reaches, and report the result.
@@ -41,7 +41,11 @@ list are mapped to what that means here.
    only `<name>/` with plain files, owner 0:0, modes 0644/0755.
 9. **Input validation:** folder names 1-32 of `a-z0-9_-`; only
    `theme.css`, `chart.json`, `template.json`; sizes within the limits of
-   gameWE-web (256 KB, 16 KB); JSON is an object; `make check` enforces it.
+   gameWE-web (256 KB, 16 KB); JSON is an object. Map pictures: game folder
+   `^[a-z0-9][a-z0-9_-]{0,31}$`, only lower-case `<map>.png` (real PNG, at
+   most 8 MB, no text or EXIF chunks that could carry paths or names) and
+   `<map>.json` (`pos_x`, `pos_y`, `scale`, at most 64 KB), always in
+   pairs. `make check` enforces it (the metadata check is by hand).
 10. **Unauthenticated entry points:** not applicable (no code runs on a
     server from this repo).
 11. **Injection:** CSS injection: every rule scoped to `html[data-skin]`, no
@@ -65,4 +69,6 @@ list are mapped to what that means here.
 20. **Attack your own change:** try one hostile input (a symlink in a
     template folder, a `theme.css` with `url(https://...)` or `@import`, a
     folder named `../x` or with upper case, a 300 KB `theme.css`, a broken
-    `chart.json`) and check that `make check` stops it.
+    `chart.json`; in `maps/` a symlink, an upper-case name, a text file
+    named `.png`, a JSON without `scale`) and check that `make check` stops
+    it.

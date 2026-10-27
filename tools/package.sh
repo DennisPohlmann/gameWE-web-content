@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Packs every folder under templates/ into dist/gamewe-web-template-<name>-<version>.tar.gz
+# Packs every folder under templates/ into dist/gamewe-web-template-<name>-<version>.tar.gz,
+# every folder under maps/ into dist/gamewe-web-maps-<game>-<version>.tar.gz
 # and writes dist/SHA256SUMS over all archives.
 #
-# Each archive holds one folder, <name>/, so it can be extracted straight into
-# the TEMPLATES_DIR of gameWE-web. The archives are reproducible: sorted
+# Each archive holds one folder, <name>/ or <game>/, so it can be extracted
+# straight into /var/lib/gamewe/web/templates or /var/lib/gamewe/web/overviews.
+# The archives are reproducible: sorted
 # entries, owner 0:0, fixed modes, the time of the last commit and gzip
 # without a name or time stamp, so the same commit gives the same checksums.
 #
@@ -30,13 +32,22 @@ mtime=$(git log -1 --format=%ct 2>/dev/null || echo 0)
 rm -rf dist
 mkdir -p dist
 
-for dir in templates/*/; do
-  name=$(basename "$dir")
-  out=dist/gamewe-web-template-$name-$version.tar.gz
+# pack <base> <name> <archive>: <base>/<name>/ as one reproducible archive.
+pack() {
   tar --create --format=gnu --sort=name --mtime="@$mtime" \
     --owner=0 --group=0 --numeric-owner --mode='u=rwX,go=rX' \
-    -C templates "$name" | gzip -9 -n >"$out"
-  echo "package: $out"
+    -C "$1" "$2" | gzip -9 -n >"$3"
+  echo "package: $3"
+}
+
+for dir in templates/*/; do
+  name=$(basename "$dir")
+  pack templates "$name" "dist/gamewe-web-template-$name-$version.tar.gz"
+done
+
+for dir in maps/*/; do
+  game=$(basename "$dir")
+  pack maps "$game" "dist/gamewe-web-maps-$game-$version.tar.gz"
 done
 
 (cd dist && sha256sum -- *.tar.gz >SHA256SUMS)

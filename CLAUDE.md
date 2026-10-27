@@ -1,20 +1,28 @@
-# gameWE web templates - notes for Claude
+# gameWE web content - notes for Claude
 
-Optional design templates (skins) for gameWE-web: every template that
-gameWE-web does not ship itself, starting with the ones it removed after
-v0.12.5; more can be added. Never hard-code the number of templates in docs
-or scripts. One folder per template under `templates/<name>/`
+Optional content for gameWE-web that it does not ship itself (the repo was
+called gameWE-web-templates up to v1.1.1): design templates (skins),
+starting with the ones it removed after v0.12.5, and map pictures with
+their calibration for community maps (`maps/<game>/<map>.png` + `.json`,
+installed into `/var/lib/gamewe/web/overviews`); more can be added. Never
+hard-code the number of templates or maps in docs or scripts. One folder per template under `templates/<name>/`
 with `theme.css` (CSS variables; `modern-*` also layout rules), `chart.json`
 (chart colours) and `template.json` (display name de/en). No code runs from
-this repository on a server: gameWE-web reads the files from its
-`TEMPLATES_DIR` and only takes CSS variables, layout rules scoped to
-`html[data-skin]` and plain colour values. `generator/modern-variants.mjs.txt`
-keeps the `VARIANTS` lines of the `modern-*` templates for gameWE-web's
-`scripts/modern-templates.mjs`.
+this repository on a server: gameWE-web reads the files from
+`/var/lib/gamewe/web/templates` (before 0.36.0: `TEMPLATES_DIR`) and only
+takes CSS variables, layout rules scoped to `html[data-skin]` and plain
+colour values. `generator/modern-variants.mjs.txt` keeps the `VARIANTS` lines of the `modern-*` templates for gameWE-web's
+`scripts/modern-templates.mjs`. Map pictures: one folder per game code
+under `maps/` (base game, e.g. `css`), in it only `<map>.png` (2048 x 2048,
+no metadata, at most 8 MB) and `<map>.json` (`pos_x`, `pos_y`, `scale`, at
+most 64 KB), lower-case names; they are community maps of other authors,
+so keep the license note in `README.md`.
 
-Build: `make check` (tools/check-templates.sh), `make package`
-(tools/package.sh: one reproducible `dist/gamewe-web-template-<name>-<version>.tar.gz`
-per template plus `dist/SHA256SUMS`), `make verify`.
+Build: `make check` (tools/check-templates.sh, tools/check-maps.sh),
+`make package` (tools/package.sh: one reproducible
+`dist/gamewe-web-template-<name>-<version>.tar.gz` per template, one
+`dist/gamewe-web-maps-<game>-<version>.tar.gz` per game folder, plus
+`dist/SHA256SUMS`), `make verify`.
 
 Releases: Conventional Commits + semantic-release (`.releaserc.json`). The
 GitHub workflow checks and packs every push to `main` (workflow artifact
