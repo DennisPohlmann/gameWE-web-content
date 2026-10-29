@@ -14,6 +14,10 @@ html[data-skin] {
   --muted: #97a6ae;
   --accent: #f26b1d;
   --accent-text: #ff9a5a;
+  --accent-on: #000000;
+  --ribbon-text-1: #be8a5d;
+  --ribbon-text-2: #a9b0b8;
+  --ribbon-text-3: #d9ae1e;
   --good: #5fd0a0;
   --bad: #ff5a5a;
   --series-2: #62b6e8;
