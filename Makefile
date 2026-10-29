@@ -5,10 +5,14 @@
 #                  dist/gamewe-web-maps-<game>-<version>.tar.gz and dist/SHA256SUMS
 #   make verify    check dist/ against dist/SHA256SUMS
 #   make clean     remove dist/
+#   make modern [WEB=../web]        regenerate the modern-* templates with the
+#                                   generator of a gameWE-web checkout
+#   make modern-check [WEB=../web]  exit 1 if one is out of date for it
 
 VERSION ?=
+WEB ?= ../web
 
-.PHONY: all check package verify clean
+.PHONY: all check package verify clean modern modern-check
 
 all: check package
 
@@ -24,3 +28,9 @@ verify:
 
 clean:
 	rm -rf dist
+
+modern:
+	node $(WEB)/scripts/modern-templates.mjs --variants generator/modern-variants.json --out templates
+
+modern-check:
+	node $(WEB)/scripts/modern-templates.mjs --variants generator/modern-variants.json --out templates --check

@@ -11,8 +11,9 @@ with `theme.css` (CSS variables; `modern-*` also layout rules), `chart.json`
 this repository on a server: gameWE-web reads the files from
 `/var/lib/gamewe/web/templates` (before 0.36.0: `TEMPLATES_DIR`) and only
 takes CSS variables, layout rules scoped to `html[data-skin]` and plain
-colour values. `generator/modern-variants.mjs.txt` keeps the `VARIANTS` lines of the `modern-*` templates for gameWE-web's
-`scripts/modern-templates.mjs`. Map pictures: one folder per game code
+colour values. `generator/modern-variants.json` holds the colours of the `modern-*` templates;
+`make modern WEB=<gameWE-web checkout>` regenerates them with gameWE-web's
+`scripts/modern-templates.mjs` (`--variants`, `--out`). Map pictures: one folder per game code
 under `maps/` (base game, e.g. `css`), in it only `<map>.png` (2048 x 2048,
 no metadata, at most 8 MB) and `<map>.json` (`pos_x`, `pos_y`, `scale`, at
 most 64 KB), lower-case names; they are community maps of other authors,

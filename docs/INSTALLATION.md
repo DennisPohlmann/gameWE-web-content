@@ -107,9 +107,10 @@ gameWE-web as below.
 2. Remove its entry from `REMOVED_TEMPLATES` in `src/lib/skin-fallback.ts`
    and update `tests/skin-fallback.test.ts` (it expects exactly six built-in
    templates) and `templates/README.md`.
-3. For a `modern-*` template also add its line from
-   [`generator/modern-variants.mjs.txt`](../generator/modern-variants.mjs.txt)
-   to `VARIANTS` in `scripts/modern-templates.mjs` and run
+3. For a `modern-*` template also add its entry from
+   [`generator/modern-variants.json`](../generator/modern-variants.json)
+   to `VARIANTS` in `scripts/modern-templates.mjs` (with `base: DARK` or
+   `base: LIGHT` instead of the string) and run
    `npm run templates`: the generated `theme.css` replaces the copied one
    (`npm test` checks this). Also update `tests/modern-templates.test.ts`.
 

@@ -6,8 +6,8 @@
 templates/<name>/theme.css       required: CSS variables (modern-*: also layout rules)
 templates/<name>/chart.json      chart colours
 templates/<name>/template.json   display name (de, en)
-generator/modern-variants.mjs.txt  the VARIANTS lines of the modern-* templates
-                                 for scripts/modern-templates.mjs of gameWE-web
+generator/modern-variants.json   the colours of the modern-* templates, input of
+                                 scripts/modern-templates.mjs of gameWE-web
 maps/<game>/<map>.png            map picture (2048 x 2048 PNG, no metadata)
 maps/<game>/<map>.json           its calibration: pos_x, pos_y, scale (for 1024 px)
 tools/check-templates.sh         checks every template
@@ -28,12 +28,17 @@ How templates work and all variables: `templates/README.md` of
 
 ## Updating the modern templates to a newer gameWE-web
 
-The `modern-*` files are generated, never edited by hand. Copy
-`scripts/modern-templates.mjs` and `scripts/modern-templates/layout.css` of
-the gameWE-web release into an empty folder (`scripts/` below it), put the
-lines of `generator/modern-variants.mjs.txt` into its `VARIANTS` (instead of
-the built-in ones), run `node scripts/modern-templates.mjs` there and copy
-the generated `templates/modern-*/` files over the ones in `templates/`.
+The `modern-*` files are generated, never edited by hand. With a checkout
+of the gameWE-web release next to this repository:
+
+```bash
+make modern WEB=../web          # writes templates/modern-*/ from generator/modern-variants.json
+make modern-check WEB=../web    # exit 1 while one is out of date for that gameWE-web
+```
+
+A new modern colour is one more entry in `generator/modern-variants.json`
+(`base` `dark` or `light`, `accent`, `accentText`, `hover`, `on`, optional
+`first`/`second` chart colours and `vars`), then `make modern`.
 Name the gameWE-web version in `docs/INSTALLATION.md` (notes on the modern
 templates). The classic and game templates hold only CSS variables; compare
 them with the variables of gameWE-web's built-in `orange/theme.css`.

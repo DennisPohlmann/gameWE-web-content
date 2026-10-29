@@ -1,0 +1,65 @@
+[
+  {
+    "id": "modern-gold",
+    "name": {
+      "de": "Modern Gold",
+      "en": "Modern gold"
+    },
+    "base": "dark",
+    "accent": "#f0b400",
+    "accentText": "#ffcf40",
+    "hover": "#ffc61a",
+    "on": "#111111",
+    "first": "#4a90e2",
+    "second": "#f0b400"
+  },
+  {
+    "id": "modern-blue",
+    "name": {
+      "de": "Modern Blau",
+      "en": "Modern blue"
+    },
+    "base": "dark",
+    "accent": "#3d9bff",
+    "accentText": "#8cc4ff",
+    "hover": "#5aabff",
+    "on": "#0b0b0c",
+    "second": "#f0b400"
+  },
+  {
+    "id": "modern-red",
+    "name": {
+      "de": "Modern Rot",
+      "en": "Modern red"
+    },
+    "base": "dark",
+    "accent": "#ff4d4f",
+    "accentText": "#ff9a9c",
+    "hover": "#ff6b6d",
+    "on": "#111111"
+  },
+  {
+    "id": "modern-green",
+    "name": {
+      "de": "Modern Grün",
+      "en": "Modern green"
+    },
+    "base": "dark",
+    "accent": "#3cc35f",
+    "accentText": "#94e0a8",
+    "hover": "#55d176",
+    "on": "#0b0b0c"
+  },
+  {
+    "id": "modern-pink",
+    "name": {
+      "de": "Modern Pink",
+      "en": "Modern pink"
+    },
+    "base": "dark",
+    "accent": "#ff4fa3",
+    "accentText": "#ff9ccb",
+    "hover": "#ff6fb4",
+    "on": "#111111"
+  }
+]
