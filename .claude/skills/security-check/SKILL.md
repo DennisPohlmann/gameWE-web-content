@@ -30,7 +30,7 @@ list are mapped to what that means here.
 2. **Least privilege:** the workflow has `contents: read` at the top and
    `contents: write` only in the release and publish jobs.
 3. **IDOR:** not applicable.
-4. **Git secrets:** see step 5; `dist/`, `*.tar.gz` and `SHA256SUMS` stay
+4. **Git secrets:** see step 5; `dist/`, `*.tar.gz` and `*.tar.gz.sha256` stay
    ignored and are never committed.
 5. **Admin routes:** not applicable (the admin area of gameWE-web has its
    own design; a template must not try to style or hide it).
@@ -57,7 +57,7 @@ list are mapped to what that means here.
     with tokens).
 13. **Field tampering:** not applicable.
 14. **Uploads:** the release assets are only the archives from
-    `make package` and `SHA256SUMS`, built from the tag in CI.
+    `make package` and their `.tar.gz.sha256` files, built from the tag in CI.
 15. **Server logic:** gameWE-web, not the template, decides what is
     shown; a template only changes colours and layout.
 16. **Trim responses:** not applicable.

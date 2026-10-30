@@ -2,13 +2,13 @@ name: build
 
 # Every push to main checks the templates and map pictures and packs each
 # template into its own gamewe-web-template-<name>-<version>.tar.gz, each game's
-# map pictures into gamewe-web-maps-<game>-<version>.tar.gz, plus SHA256SUMS,
-# kept as a workflow artifact. semantic-release then reads the Conventional Commits
-# since the last tag: for a feat, fix or breaking change it bumps VERSION,
-# writes CHANGELOG.md, commits that as "chore(release): vX.Y.Z [skip ci]",
-# tags vX.Y.Z and creates the GitHub release; publish then packs that tag and
-# adds the archives and SHA256SUMS to the release. A manual run packs without
-# publishing.
+# map pictures into gamewe-web-maps-<game>-<version>.tar.gz, each archive with
+# its own <archive>.sha256, kept as a workflow artifact. semantic-release then
+# reads the Conventional Commits since the last tag: for a feat, fix or
+# breaking change it bumps VERSION, writes CHANGELOG.md, commits that as
+# "chore(release): vX.Y.Z [skip ci]", tags vX.Y.Z and creates the GitHub
+# release; publish then packs that tag and adds the archives and their .sha256
+# files to the release. A manual run packs without publishing.
 on:
   push:
     branches: [main]
@@ -35,7 +35,7 @@ jobs:
           name: gamewe-web-content
           path: |
             dist/*.tar.gz
-            dist/SHA256SUMS
+            dist/*.tar.gz.sha256
           if-no-files-found: error
 
   release:
@@ -87,7 +87,7 @@ jobs:
         run: |
           make package VERSION="$RELEASE"
           make verify
-      - name: add the archives and SHA256SUMS to the release
+      - name: add the archives and their .sha256 files to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "v$RELEASE" dist/*.tar.gz dist/SHA256SUMS --repo "$GITHUB_REPOSITORY"
+        run: gh release upload "v$RELEASE" dist/*.tar.gz dist/*.tar.gz.sha256 --repo "$GITHUB_REPOSITORY"

@@ -15,8 +15,8 @@ that gameWE-web does not ship itself:
 
 Every release offers each template and each game's map pictures as its own
 `.tar.gz`, ready to unpack into `/var/lib/gamewe/web/templates` or
-`/var/lib/gamewe/web/overviews`, plus a
-`SHA256SUMS` file to verify them. This repository was called
+`/var/lib/gamewe/web/overviews`, each with
+its own `<archive>.sha256` file to verify it. This repository was called
 `gameWE-web-templates` up to v1.1.1; the old address forwards here.
 
 A template is a folder with `theme.css` (the CSS variables, for the
@@ -71,8 +71,8 @@ NAME=blue
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
 curl -fLO "$BASE/gamewe-web-template-$NAME-$VERSION.tar.gz"
-curl -fLO "$BASE/SHA256SUMS"
-sha256sum --check --ignore-missing SHA256SUMS   # must print ": OK"
+curl -fLO "$BASE/gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"
+sha256sum --check "gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"   # must print ": OK"
 
 sudo mkdir -p /var/lib/gamewe/web/templates
 sudo tar -xzf "gamewe-web-template-$NAME-$VERSION.tar.gz" -C /var/lib/gamewe/web/templates
@@ -100,8 +100,8 @@ GAME=css
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
 curl -fLO "$BASE/gamewe-web-maps-$GAME-$VERSION.tar.gz"
-curl -fLO "$BASE/SHA256SUMS"
-sha256sum --check --ignore-missing SHA256SUMS   # must print ": OK"
+curl -fLO "$BASE/gamewe-web-maps-$GAME-$VERSION.tar.gz.sha256"
+sha256sum --check "gamewe-web-maps-$GAME-$VERSION.tar.gz.sha256"   # must print ": OK"
 
 sudo mkdir -p /var/lib/gamewe/web/overviews
 sudo tar -xzf "gamewe-web-maps-$GAME-$VERSION.tar.gz" -C /var/lib/gamewe/web/overviews
@@ -116,18 +116,20 @@ before 0.36.0: also set `OVERVIEWS_DIR=/var/lib/gamewe/web/overviews` in
 
 ## Verifying the downloads
 
-Every release has a `SHA256SUMS` file with one line per archive. Download it
-from the same release as the archives and check:
+Every archive in a release has its own `<archive>.sha256` file holding the
+one line for that archive. Download it from the same release as the archive
+and check:
 
 ```bash
-sha256sum --check --ignore-missing SHA256SUMS    # Linux
-shasum -a 256 --check --ignore-missing SHA256SUMS   # macOS
+sha256sum --check gamewe-web-template-blue-1.0.0.tar.gz.sha256        # Linux
+shasum -a 256 --check gamewe-web-template-blue-1.0.0.tar.gz.sha256    # macOS
 ```
 
-Every downloaded archive must show `OK`; anything else (`FAILED`, no line)
-means the file is damaged or not the released one: do not install it. On
-Windows compare `Get-FileHash .\gamewe-web-template-blue-1.0.0.tar.gz` (PowerShell,
-SHA256 by default) with the line in `SHA256SUMS`.
+It must show `OK`; anything else (`FAILED`, no such file) means the archive
+is damaged or not the released one: do not install it. On Windows compare
+`(Get-FileHash .\gamewe-web-template-blue-1.0.0.tar.gz).Hash.ToLower()`
+(PowerShell, SHA256 by default) with the first word in
+`gamewe-web-template-blue-1.0.0.tar.gz.sha256`.
 
 The archives are built reproducibly by the release workflow from the tagged
 commit, so `make package VERSION=<version>` on a checkout of `v<version>`
@@ -157,8 +159,8 @@ gives the same checksums (see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)).
 ```bash
 make check     # check every template and every map picture
 make package   # dist/gamewe-web-template-<name>-<version>.tar.gz,
-               # dist/gamewe-web-maps-<game>-<version>.tar.gz and dist/SHA256SUMS
-make verify    # check dist/ against dist/SHA256SUMS
+               # dist/gamewe-web-maps-<game>-<version>.tar.gz, each with its .sha256
+make verify    # check every archive in dist/ against its .sha256
 ```
 
 ## License

@@ -2,8 +2,8 @@
 #
 #   make check     check every template in templates/ and every map picture in maps/
 #   make package   dist/gamewe-web-template-<name>-<version>.tar.gz,
-#                  dist/gamewe-web-maps-<game>-<version>.tar.gz and dist/SHA256SUMS
-#   make verify    check dist/ against dist/SHA256SUMS
+#                  dist/gamewe-web-maps-<game>-<version>.tar.gz, each with its own .sha256
+#   make verify    check every archive in dist/ against its .sha256
 #   make clean     remove dist/
 #   make modern [WEB=../web]        regenerate the modern-* templates with the
 #                                   generator of a gameWE-web checkout
@@ -24,7 +24,7 @@ package: check
 	bash tools/package.sh $(VERSION)
 
 verify:
-	cd dist && sha256sum --check --strict SHA256SUMS
+	cd dist && for f in *.tar.gz.sha256; do sha256sum --check --strict "$$f" || exit 1; done
 
 clean:
 	rm -rf dist

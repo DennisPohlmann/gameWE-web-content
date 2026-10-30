@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Packs every folder under templates/ into dist/gamewe-web-template-<name>-<version>.tar.gz,
 # every folder under maps/ into dist/gamewe-web-maps-<game>-<version>.tar.gz
-# and writes dist/SHA256SUMS over all archives.
+# and writes dist/<archive>.sha256 next to each archive.
 #
 # Each archive holds one folder, <name>/ or <game>/, so it can be extracted
 # straight into /var/lib/gamewe/web/templates or /var/lib/gamewe/web/overviews.
@@ -50,5 +50,12 @@ for dir in maps/*/; do
   pack maps "$game" "dist/gamewe-web-maps-$game-$version.tar.gz"
 done
 
-(cd dist && sha256sum -- *.tar.gz >SHA256SUMS)
-echo "package: dist/SHA256SUMS"
+# One checksum file per archive, run inside dist/ so the names in it are bare
+# and `sha256sum --check <archive>.sha256` works next to the download.
+(
+  cd dist
+  for archive in *.tar.gz; do
+    sha256sum -- "$archive" >"$archive.sha256"
+    echo "package: dist/$archive.sha256"
+  done
+)

@@ -13,8 +13,8 @@ table with the 20 points (ok / finding / n.a.) and a go/no-go.
 Releases are made by semantic-release in CI: every push to `main` that
 contains a `feat`, `fix` or breaking-change commit (Conventional Commits)
 bumps the version, writes `CHANGELOG.md`, tags `vX.Y.Z` and publishes the
-GitHub release; the publish job adds one `.tar.gz` per template and
-`SHA256SUMS`. So this gate runs **before pushing release-relevant commits to
+GitHub release; the publish job adds one `.tar.gz` per template and map
+folder, each with its own `.tar.gz.sha256`. So this gate runs **before pushing release-relevant commits to
 `main`**, without asking first. Never tag by hand, never edit `VERSION` or
 `CHANGELOG.md` by hand, and do not push to `main` yourself: report the gate
 result and the version semantic-release will make (`feat` → minor, `fix` →
@@ -33,7 +33,9 @@ then ask Dennis for the go.
    per folder in `templates/` and one per folder in `maps/`; each archive
    lists exactly `<name>/` (or `<game>/`) and its
    files (`tar -tzvf`, owner `0/0`, no links, no absolute paths, no `..`);
-   `make package` twice gives the same `dist/SHA256SUMS` (reproducible).
+   every archive has exactly one `dist/<archive>.sha256` with one line and no
+   combined checksum file exists; `make package` twice gives the same
+   `.sha256` files (reproducible).
 3. **Secrets in the whole history:** prefer
    `gitleaks detect --source . --log-opts="--all"`; otherwise
    `git log -p --all | grep -nEi '(password|secret|token|api[_-]?key|BEGIN [A-Z ]*PRIVATE KEY)'`.
@@ -60,8 +62,8 @@ then ask Dennis for the go.
    `${{ github.event.* }}` text inside `run:`. Run `actionlint` if
    available.
 9. **Install test:** extract one classic, one game and one modern archive
-   into an empty folder and run `sha256sum --check --ignore-missing
-   SHA256SUMS` from the downloaded location, and the maps archive into an
+   into an empty folder and run `sha256sum --check
+   <archive>.sha256` for each from the downloaded location, and the maps archive into an
    empty overviews folder; if a gameWE-web is available,
    mount or point it at those folders and check that the templates are
    listed (visual checks only on Dennis' request, see `CLAUDE.md`).

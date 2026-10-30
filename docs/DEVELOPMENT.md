@@ -12,7 +12,7 @@ maps/<game>/<map>.png            map picture (2048 x 2048 PNG, no metadata)
 maps/<game>/<map>.json           its calibration: pos_x, pos_y, scale (for 1024 px)
 tools/check-templates.sh         checks every template
 tools/check-maps.sh              checks every map picture
-tools/package.sh                 builds the release archives and SHA256SUMS
+tools/package.sh                 builds the release archives and their .sha256 files
 ```
 
 `<game>` is the game code whose folder gameWE-web searches in
@@ -78,19 +78,22 @@ Needs `bash`, `find`, `grep` and `jq`.
 `dist/gamewe-web-template-<name>-<version>.tar.gz` with the single folder
 `<name>/`, for every game folder in `maps/`,
 `dist/gamewe-web-maps-<game>-<version>.tar.gz` with the single folder
-`<game>/`, and `dist/SHA256SUMS` over all archives. `make verify` checks
-`dist/` against it. The version comes from `VERSION=` on the command line,
+`<game>/`, and next to each archive `dist/<archive>.sha256` with its one
+checksum line. `make verify` checks every archive against its `.sha256`. The version comes from `VERSION=` on the command line,
 else the file `VERSION`, else the latest tag, else `dev`.
 
 The archives are reproducible: entries sorted by name, owner and group 0,
 modes `0644`/`0755`, all times set to the time of the last commit, gzip
 without name and time. Packing the same commit with the same version always
-gives the same `SHA256SUMS`, so anyone can rebuild a release and compare:
+gives the same checksums, so anyone can rebuild a release and compare
+each downloaded archive:
 
 ```bash
 git checkout v1.0.0
 make package VERSION=1.0.0
-diff dist/SHA256SUMS ~/Downloads/SHA256SUMS
+for f in dist/*.tar.gz.sha256; do
+  diff "$f" ~/Downloads/"$(basename "$f")"
+done
 ```
 
 (Needs GNU tar 1.28 or newer for `--sort=name`.)
@@ -109,7 +112,7 @@ diff dist/SHA256SUMS ~/Downloads/SHA256SUMS
   `chore(release): vX.Y.Z [skip ci]`, tags `vX.Y.Z` and creates the GitHub
   release.
 - **publish** (when a release was made): checks out the tag, packs it with
-  that version and uploads every `.tar.gz` and `SHA256SUMS` to the release.
+  that version and uploads every `.tar.gz` and its `.sha256` to the release.
 
 Never tag by hand and never edit `VERSION` or `CHANGELOG.md`. Before
 release-relevant commits are pushed to `main`, the `release-security-gate`

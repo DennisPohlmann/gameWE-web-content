@@ -37,7 +37,7 @@ within a minute.
 
 ## 2. Install a template
 
-Download the archive and `SHA256SUMS` of the same release from
+Download the archive and its `.sha256` file of the same release from
 <https://github.com/DennisPohlmann/gameWE-web-content/releases>, verify and
 extract:
 
@@ -47,8 +47,8 @@ NAME=modern-blue
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
 curl -fLO "$BASE/gamewe-web-template-$NAME-$VERSION.tar.gz"
-curl -fLO "$BASE/SHA256SUMS"
-sha256sum --check --ignore-missing SHA256SUMS
+curl -fLO "$BASE/gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"
+sha256sum --check "gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"
 
 sudo mkdir -p /var/lib/gamewe/web/templates
 sudo tar -xzf "gamewe-web-template-$NAME-$VERSION.tar.gz" -C /var/lib/gamewe/web/templates
@@ -58,14 +58,19 @@ With the GitHub CLI:
 
 ```bash
 gh release download "v$VERSION" -R DennisPohlmann/gameWE-web-content \
-  -p "gamewe-web-template-$NAME-$VERSION.tar.gz" -p SHA256SUMS
+  -p "gamewe-web-template-$NAME-$VERSION.tar.gz" \
+  -p "gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"
+sha256sum --check "gamewe-web-template-$NAME-$VERSION.tar.gz.sha256"
 ```
 
 All templates at once:
 
 ```bash
-gh release download "v$VERSION" -R DennisPohlmann/gameWE-web-content
-sha256sum --check --strict SHA256SUMS
+gh release download "v$VERSION" -R DennisPohlmann/gameWE-web-content \
+  -p "gamewe-web-template-*-$VERSION.tar.gz*"
+for f in gamewe-web-template-*-"$VERSION".tar.gz.sha256; do
+  sha256sum --check --strict "$f" || break
+done
 for f in gamewe-web-template-*-"$VERSION".tar.gz; do
   sudo tar -xzf "$f" -C /var/lib/gamewe/web/templates
 done
@@ -129,8 +134,9 @@ single folder `<game>/` with `<map>.png` and `<map>.json` per map.
    VERSION=1.2.0
    GAME=css
    gh release download "v$VERSION" -R DennisPohlmann/gameWE-web-content \
-     -p "gamewe-web-maps-$GAME-$VERSION.tar.gz" -p SHA256SUMS
-   sha256sum --check --ignore-missing SHA256SUMS
+     -p "gamewe-web-maps-$GAME-$VERSION.tar.gz" \
+     -p "gamewe-web-maps-$GAME-$VERSION.tar.gz.sha256"
+   sha256sum --check "gamewe-web-maps-$GAME-$VERSION.tar.gz.sha256"
 
    sudo mkdir -p /var/lib/gamewe/web/overviews
    sudo tar -xzf "gamewe-web-maps-$GAME-$VERSION.tar.gz" -C /var/lib/gamewe/web/overviews
@@ -158,5 +164,6 @@ picture show the heatmap on a plain background again.
   the map's name in lower case, and that they are readable.
 - **`sha256sum` prints `FAILED`:** download the archive again; if it still
   fails, do not install it and open an issue.
-- **`sha256sum: no file was verified`:** the archive name does not match a
-  line in `SHA256SUMS`; take both from the same release.
+- **`sha256sum: ...: No such file or directory`:** the archive named in the
+  `.sha256` file is missing or renamed; download both from the same release
+  and keep the archive's name.

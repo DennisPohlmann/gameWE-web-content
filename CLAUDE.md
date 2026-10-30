@@ -22,15 +22,15 @@ so keep the license note in `README.md`.
 Build: `make check` (tools/check-templates.sh, tools/check-maps.sh),
 `make package` (tools/package.sh: one reproducible
 `dist/gamewe-web-template-<name>-<version>.tar.gz` per template, one
-`dist/gamewe-web-maps-<game>-<version>.tar.gz` per game folder, plus
-`dist/SHA256SUMS`), `make verify`.
+`dist/gamewe-web-maps-<game>-<version>.tar.gz` per game folder, each with
+its own `dist/<archive>.sha256`), `make verify`.
 
 Releases: Conventional Commits + semantic-release (`.releaserc.json`). The
 GitHub workflow checks and packs every push to `main` (workflow artifact
 only); `feat`/`fix`/breaking commits make semantic-release bump `VERSION`,
 write `CHANGELOG.md`, commit `chore(release): vX.Y.Z [skip ci]`, tag
 `vX.Y.Z` and publish the GitHub release; the publish job then adds every
-archive and `SHA256SUMS`. There is no tag-triggered workflow.
+archive and its `.sha256`. There is no tag-triggered workflow.
 
 ## Documentation layout (the same in all gameWE repos)
 
@@ -92,5 +92,6 @@ are not checked visually unless Dennis asks for a specific one.
 - Limits of gameWE-web: `theme.css` at most 256 KB, `chart.json` at most
   16 KB.
 - Each release archive holds exactly one folder `<name>/`; archives stay
-  reproducible (`tools/package.sh`) and `SHA256SUMS` covers every archive.
+  reproducible (`tools/package.sh`) and each has its own `<archive>.sha256`
+  (no combined checksum file).
 - Removing or renaming a template is a breaking change.

@@ -1,7 +1,7 @@
 # build output
 /dist/
 *.tar.gz
-SHA256SUMS
+*.tar.gz.sha256
 
 # editors / OS
 .idea/
