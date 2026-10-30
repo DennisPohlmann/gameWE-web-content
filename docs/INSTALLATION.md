@@ -42,7 +42,7 @@ Download the archive and its `.sha256` file of the same release from
 extract:
 
 ```bash
-VERSION=1.0.0
+VERSION=1.2.2
 NAME=modern-blue
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
@@ -131,7 +131,7 @@ single folder `<game>/` with `<map>.png` and `<map>.json` per map.
 2. Download, verify and extract:
 
    ```bash
-   VERSION=1.2.0
+   VERSION=1.2.2
    GAME=css
    gh release download "v$VERSION" -R DennisPohlmann/gameWE-web-content \
      -p "gamewe-web-maps-$GAME-$VERSION.tar.gz" \

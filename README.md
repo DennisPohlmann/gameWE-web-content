@@ -63,10 +63,10 @@ gameWE-web ships; if one ever does, the installed picture wins.
 
 ## Quick start: a template
 
-Install one template, here `blue` from release `1.2.0`:
+Install one template, here `blue` from release `1.2.2`:
 
 ```bash
-VERSION=1.2.0
+VERSION=1.2.2
 NAME=blue
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
@@ -92,10 +92,10 @@ once, other platforms and removal: [docs/INSTALLATION.md](docs/INSTALLATION.md).
 
 ## Quick start: map pictures
 
-Install the CS:S map pictures from release `1.2.0`:
+Install the CS:S map pictures from release `1.2.2`:
 
 ```bash
-VERSION=1.2.0
+VERSION=1.2.2
 GAME=css
 BASE=https://github.com/DennisPohlmann/gameWE-web-content/releases/download/v$VERSION
 
@@ -121,15 +121,15 @@ one line for that archive. Download it from the same release as the archive
 and check:
 
 ```bash
-sha256sum --check gamewe-web-template-blue-1.0.0.tar.gz.sha256        # Linux
-shasum -a 256 --check gamewe-web-template-blue-1.0.0.tar.gz.sha256    # macOS
+sha256sum --check gamewe-web-template-blue-1.2.2.tar.gz.sha256        # Linux
+shasum -a 256 --check gamewe-web-template-blue-1.2.2.tar.gz.sha256    # macOS
 ```
 
 It must show `OK`; anything else (`FAILED`, no such file) means the archive
 is damaged or not the released one: do not install it. On Windows compare
-`(Get-FileHash .\gamewe-web-template-blue-1.0.0.tar.gz).Hash.ToLower()`
+`(Get-FileHash .\gamewe-web-template-blue-1.2.2.tar.gz).Hash.ToLower()`
 (PowerShell, SHA256 by default) with the first word in
-`gamewe-web-template-blue-1.0.0.tar.gz.sha256`.
+`gamewe-web-template-blue-1.2.2.tar.gz.sha256`.
 
 The archives are built reproducibly by the release workflow from the tagged
 commit, so `make package VERSION=<version>` on a checkout of `v<version>`
