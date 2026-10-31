@@ -1,0 +1,55 @@
+name: Bug report
+description: Something in gameWE - web content does not work as documented.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. **Security problems do not
+        belong here**: please report them privately as described in
+        [SECURITY.md](https://github.com/DennisPohlmann/gameWE-web-content/blob/main/SECURITY.md).
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "The version of gameWE - web content you use (the archive name, e.g. gamewe-web-template-modern-1.2.1.tar.gz)."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: "Setup"
+      placeholder: "skin or map package and its version, gameWE web version, browser"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and configuration
+      description: "Errors from `make check` or the web server output, if any."
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I removed passwords, RCON passwords, tokens and other private data from the logs and configs above.
+          required: true
