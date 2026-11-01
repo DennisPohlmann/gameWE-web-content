@@ -89,8 +89,8 @@ gives the same checksums, so anyone can rebuild a release and compare
 each downloaded archive:
 
 ```bash
-git checkout v1.2.2
-make package VERSION=1.2.2
+git checkout v1.2.3
+make package VERSION=1.2.3
 for f in dist/*.tar.gz.sha256; do
   diff "$f" ~/Downloads/"$(basename "$f")"
 done
