@@ -102,21 +102,25 @@ done
 
 `.github/workflows/build.yml`:
 
-- **build** (every push to `main`, pull requests, manual runs): `make check`,
-  `make package`, `make verify`; the archives are kept as a workflow
-  artifact.
-- **release** (push to `main` only): semantic-release (`.releaserc.json`)
+- **build** (every push to any branch, pull requests, manual runs):
+  `make check`, `make package`, `make verify`; the archives are kept as a
+  workflow artifact for 7 days. Nothing is published.
+- **release** (only a manual run on `main` with `release` ticked: Actions →
+  build → Run workflow, or `gh workflow run build.yml --ref main -f
+  release=true`; pushing to `main` does not release, and the job waits for
+  build): semantic-release (`.releaserc.json`)
   reads the Conventional Commits since the last tag. A `feat` gives a minor,
   a `fix` or `perf` a patch, `!`/`BREAKING CHANGE` a major release; other
   types give none. It writes `VERSION` and `CHANGELOG.md`, commits
   `chore(release): vX.Y.Z [skip ci]`, tags `vX.Y.Z` and creates the GitHub
-  release.
+  release as a draft.
 - **publish** (when a release was made): checks out the tag, packs it with
-  that version and uploads every `.tar.gz` and its `.sha256` to the release.
+  that version, uploads every `.tar.gz` and its `.sha256` to the draft and
+  then makes the release public, so it never shows up incomplete (if the
+  job fails, re-run it).
 
-Never tag by hand and never edit `VERSION` or `CHANGELOG.md`. Before
-release-relevant commits are pushed to `main`, the `release-security-gate`
-skill runs (see `CLAUDE.md`).
+Never tag by hand and never edit `VERSION` or `CHANGELOG.md`. Before every
+release run, the `release-security-gate` skill runs (see `CLAUDE.md`).
 
 Typical commit types here: `feat: add the template <name>` (new template),
 `fix(<name>): ...` (colour or contrast fix of a template),
