@@ -99,9 +99,11 @@ table in [README.md](../README.md#templates)).
 
 ## Notes on the modern templates
 
-The `modern-*` templates carry the layout rules of gameWE-web v1.2.2 (unchanged
-since v0.29.0; the same rules as its built-in `modern-dark`, `modern-light` and
-`modern-orange`). Used from `/var/lib/gamewe/web/templates` they keep that layout; a newer
+The `modern-*` templates carry the layout rules of gameWE-web v1.7.3 (the same
+rules as its built-in `modern-dark`, `modern-light` and `modern-orange`).
+They expect the start page without its game column (gameWE-web 1.7.2 and
+newer); with an older gameWE-web keep the `modern-*` templates of release
+1.2.2. Used from `/var/lib/gamewe/web/templates` they keep that layout; a newer
 gameWE-web may change the layout of its own modern templates later. Then
 install the newest release of these templates, or put the template back into
 gameWE-web as below.

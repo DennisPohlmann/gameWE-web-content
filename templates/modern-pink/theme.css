@@ -120,29 +120,38 @@ html[data-skin] .header {
   overflow: visible;
 }
 html[data-skin] .logo-word { font: 800 24px/1 var(--m-font); letter-spacing: 0; text-transform: none; }
-html[data-skin] .tabs-top { gap: 2px; padding: 0; align-items: center; }
+html[data-skin] .header .logo { flex: none; margin-right: 18px; }
+/* The links take the rest of the row; with many own links they wrap into
+   right-aligned rows of the same height instead of one link alone below. */
+html[data-skin] .tabs-top { flex: 1 1 auto; min-width: 0; gap: 0 2px; padding: 6px 0; align-items: center; }
 html[data-skin] .tabs-top a {
-  padding: 8px 10px;
+  padding: 7px 6px;
   border: 0;
   border-radius: 3px;
   background: none;
   color: var(--accent);
-  font: 700 14px/1 var(--m-font);
-  letter-spacing: 0.04em;
+  font: 700 12px/1 var(--m-font);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   text-shadow: none;
+  white-space: nowrap;
 }
 html[data-skin] .tabs-top a:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent-text); }
 
-/* Second bar: breadcrumb (game name), share, languages. */
+/* Second bar: breadcrumb (game name) on the left, share and languages
+   together on the right; when the bar gets narrow, the breadcrumb keeps its
+   row and the two move below it, still on the right. */
 html[data-skin] .nav-bar {
   align-items: center;
+  gap: 6px 14px;
   padding: 9px max(var(--m-gutter), calc((100% - var(--m-width)) / 2 + var(--m-gutter)));
   background: var(--m-bar);
   border-bottom: 1px solid var(--m-bar-border);
   color: var(--muted);
 }
-html[data-skin] .crumbs { font-weight: normal; color: var(--muted); }
+html[data-skin] .crumbs { flex: 1 1 320px; min-width: 0; font-weight: normal; color: var(--muted); }
+html[data-skin] .nav-bar .share-nav { margin-left: auto; }
+html[data-skin] .nav-bar .langs { flex-wrap: nowrap; gap: 4px; }
 html[data-skin] .crumbs a { color: var(--muted); }
 html[data-skin] .crumbs a:hover { color: var(--accent-text); }
 html[data-skin] .crumbs strong, html[data-skin] .crumbs span:nth-child(2) a { color: var(--accent); font-weight: 700; }
@@ -320,7 +329,7 @@ html[data-skin] tr.ranking-line:hover td, html[data-skin] tr.server-line:hover t
 html[data-skin] tr.ranking-line a, html[data-skin] tr.server-line a { color: var(--text); }
 html[data-skin] a.rnk, html[data-skin] a.srv { color: var(--accent) !important; }
 html[data-skin] a.rnk:hover, html[data-skin] a.srv:hover { color: var(--accent-text) !important; text-decoration: none; }
-html[data-skin] tr.ranking-line td:first-child, html[data-skin] tr.server-line td:first-child { padding-left: 12px; }
+html[data-skin] tr.ranking-line td:first-child, html[data-skin] tr.server-line td:first-child { padding-left: 9px; }
 /* Long server names stay on one line and end in "…" (the full name is the
    link's title). max-width: 0 lets the name column take only the room the
    other columns leave; the top player is cut the same way. */
@@ -331,6 +340,11 @@ html[data-skin] .voice-box td:first-child {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+/* Inside, the name and the phone's second line (flag and address) are cut
+   the same way, after the game icon. */
+html[data-skin] tr.server-line a.srv { display: block; }
+html[data-skin] tr.server-line a.srv,
+html[data-skin] tr.server-line .srv-where { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 /* Long ranking names wrap onto up to two lines (anywhere, also inside long
    words); only beyond that they are cut, the full name stays the link's
    title. The Players/Clans links beside them keep one line. */
@@ -343,9 +357,16 @@ html[data-skin] table.rankings a.rnk {
   overflow: hidden;
   overflow-wrap: anywhere;
 }
+/* The game icon floats before the name, which is a box of its own (the
+   two-line cut above): both lines start after the icon. */
+html[data-skin] table.rankings td.no-rb .game-icon { float: left; margin: 2px 6px 0 0; }
+/* The start page's 24 px icon sits in a flex row of its own (.rnk-cell):
+   no float and no margin beside the gap, so names line up with rankings
+   without an icon. */
+html[data-skin] table.rankings td.no-rb .rnk-cell .game-icon { float: none; margin: 0; }
 html[data-skin] table.rankings td.no-lb { white-space: nowrap; }
 html[data-skin] .voice-box td:first-child { width: 40%; }
-html[data-skin] table.rankings td:nth-child(5) {
+html[data-skin] table.rankings td:nth-child(4) {
   max-width: 200px;
   overflow: hidden;
   white-space: nowrap;
@@ -414,6 +435,10 @@ html[data-skin] .search button, html[data-skin] .button, html[data-skin] .sig-co
   font-weight: 700;
 }
 html[data-skin] .button, html[data-skin] .sig-codes-bar button { border-radius: 3px; }
+html[data-skin] .sig-formats button { padding: 5px 12px; font: 600 12px/1.2 var(--m-font); background: var(--surface-2); color: var(--text); border-color: var(--border); }
+html[data-skin] .sig-formats button:first-child { border-radius: var(--m-radius) 0 0 var(--m-radius); }
+html[data-skin] .sig-formats button:last-child { border-radius: 0 var(--m-radius) var(--m-radius) 0; }
+html[data-skin] .sig-formats button[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); box-shadow: none; }
 html[data-skin] .search button:hover, html[data-skin] .button:hover { background: var(--tab-hover); }
 html[data-skin] .button.danger { background: var(--m-danger); border-color: var(--m-danger); color: #ffffff; }
 
@@ -459,10 +484,28 @@ html[data-skin] .heatmap svg { border-radius: 4px; }
 /* ------------------------------------------------------------ phones */
 
 @media (max-width: 700px) {
-  html[data-skin] .header { flex-wrap: wrap; padding-top: 10px; padding-bottom: 6px; min-height: 0; }
-  html[data-skin] .tabs-top { flex-wrap: nowrap; justify-content: flex-start; width: 100%; overflow-x: auto; scrollbar-width: none; }
-  html[data-skin] .tabs-top a { font-size: 13px; padding: 7px 8px; white-space: nowrap; }
+  html[data-skin] .header { min-height: 52px; }
+  /* The menu button and its list (globals.css), flat like the tabs. */
+  html[data-skin] .header-menu > summary { padding: 8px 4px 8px 10px; border: 0; background: none; color: var(--accent); font: 700 14px/1 var(--m-font); letter-spacing: 0.04em; text-transform: uppercase; text-shadow: none; }
+  html[data-skin] .header-menu[open] > summary { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  html[data-skin] .header-menu-list { top: calc(100% + 6px); right: var(--m-gutter); border: 1px solid var(--header-border); border-radius: var(--m-radius); background: var(--surface); }
+  html[data-skin] .header-menu-list a { border-top-color: var(--border); color: var(--accent); font: 700 14px/1.2 var(--m-font); letter-spacing: 0.04em; text-transform: uppercase; text-shadow: none; }
+  html[data-skin] .header-menu-list a:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent-text); }
   html[data-skin] .nav-bar { padding-top: 7px; padding-bottom: 7px; }
+  /* Share, language and menu in the header (globals.css): one group of
+     outlined buttons in the accent colour. */
+  html[data-skin] .header-tools .share-btn,
+  html[data-skin] .header-tools .lang-menu > summary,
+  html[data-skin] .header-tools .header-menu > summary { height: 34px; padding: 0 9px; border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); border-radius: var(--m-radius); background: none; color: var(--accent); font: 700 12px/1 var(--m-font); letter-spacing: 0.02em; text-transform: none; }
+  html[data-skin] .header-tools .share-btn:hover,
+  html[data-skin] .header-tools .lang-menu[open] > summary,
+  html[data-skin] .header-tools .header-menu[open] > summary { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+  /* The language button and its list (globals.css), like the share button. */
+  html[data-skin] .lang-menu > summary { padding: 3px 9px; border: 1px solid var(--accent); border-radius: 3px; background: none; color: var(--accent); font: 700 12px/1.4 var(--m-font); text-shadow: none; }
+  html[data-skin] .lang-menu[open] > summary { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  html[data-skin] .lang-menu-list { border: 1px solid var(--header-border); border-radius: var(--m-radius); background: var(--surface); }
+  html[data-skin] .lang-menu-list a { border-top-color: var(--border); color: var(--text); font: 600 14px/1.2 var(--m-font); text-shadow: none; }
+  html[data-skin] .lang-menu-list a:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent-text); }
   html[data-skin] .page { padding: 14px 10px 20px; }
   html[data-skin] .page > .block:has(> .sections-box) { margin-top: -14px; margin-bottom: 16px; }
   html[data-skin] ul.sections { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
@@ -478,29 +521,49 @@ html[data-skin] .heatmap svg { border-radius: 4px; }
 }
 
 /* Narrow screens: the start page keeps name, Players/Clans links, the
-   player count and (from 641px) the top player; game and top clan go. */
+   player count and (from 641px) the top player; the top clan goes. On
+   phones (up to 600px) each ranking takes two lines (globals.css): name on
+   top, players, top player and the round links below; the stripes move from
+   the cells to the row. */
 @media (max-width: 900px) {
-  html[data-skin] table.rankings tr > :nth-child(3), html[data-skin] table.rankings tr > :nth-child(6) { display: none; }
-  html[data-skin] table.rankings td.no-rb { width: 60%; }
-  html[data-skin] table.rankings td:nth-child(5) { max-width: 0; width: 40%; }
-}
-@media (max-width: 640px) {
   html[data-skin] table.rankings tr > :nth-child(5) { display: none; }
+  html[data-skin] table.rankings td.no-rb { width: 60%; }
+  html[data-skin] table.rankings td:nth-child(4) { max-width: 0; width: 40%; }
+}
+@media (min-width: 601px) and (max-width: 640px) {
+  html[data-skin] table.rankings tr > :nth-child(4) { display: none; }
   html[data-skin] table.rankings td.no-rb { width: 100%; }
 }
-/* Server lists up to tablet width: game and version columns go, so the
-   name, address, map and players fit without scrolling. */
+@media (max-width: 600px) {
+  html[data-skin] table.rankings td.no-rb, html[data-skin] table.rankings td:nth-child(4) { width: auto; max-width: none; }
+  html[data-skin] table.rankings tr.ranking-line { background: var(--surface); }
+  html[data-skin] table.rankings tr.ranking-line:nth-child(even) { background: var(--m-zebra); }
+  html[data-skin] table.rankings tr.ranking-line > td, html[data-skin] table.rankings tr.ranking-line:hover > td { background: transparent; }
+  html[data-skin] table.rankings tr.ranking-line > td:first-child { padding-left: 8px; }
+  html[data-skin] table.rankings tr.ranking-line > td.rnk-clan { display: block; }
+}
+/* Server lists up to tablet width: the version column goes, so the name,
+   address, map and players fit without scrolling. */
 @media (max-width: 900px) {
-  html[data-skin] table:has(> tbody > tr.server-line) tr > :nth-child(2),
-  html[data-skin] table:has(> tbody > tr.server-line) tr > :nth-child(7) { display: none; }
+  html[data-skin] table:has(> tbody > tr.server-line) tr > :nth-child(6) { display: none; }
+}
+/* Phones (address column hidden, flag and address under the name): the name
+   and the map wrap instead of being cut, so the address stays whole and the
+   player count does not run off the screen. */
+@media (max-width: 600px) {
+  html[data-skin] tr.server-line > td { white-space: normal; overflow-wrap: anywhere; }
+  html[data-skin] tr.server-line > td:first-child { max-width: none; width: 48%; }
+  html[data-skin] tr.server-line > td:nth-child(3) { width: 34%; }
+  html[data-skin] tr.server-line a.srv { white-space: normal; }
 }
 
 /* Server load: players in the first series colour like the other area charts,
-   uptime in green. */
+   uptime in green, FPS in its own colour. */
 html[data-skin] .load-chart .line-players { stroke: var(--chart-series-1); }
 html[data-skin] .load-chart .area-players { fill: color-mix(in srgb, var(--chart-series-1) 24%, transparent); }
 html[data-skin] .load-chart .load-dot, html[data-skin] .load-chart .load-mark circle { fill: var(--chart-series-1); }
 html[data-skin] .load-chart .load-dot.up, html[data-skin] .load-chart .load-mark circle.up { fill: var(--chart-uptime); }
+html[data-skin] .load-chart .load-dot.fps, html[data-skin] .load-chart .load-mark circle.fps { fill: var(--chart-fps); }
 html[data-skin] .load-chart .swatch.s2 { background: var(--chart-series-1); }
 
 /* Player profile: the summary needs more room than half the narrow column,
@@ -508,6 +571,22 @@ html[data-skin] .load-chart .swatch.s2 { background: var(--chart-series-1); }
 html[data-skin] .cont-2:has(> table.stats.profile) { grid-template-columns: minmax(0, 1fr); }
 html[data-skin] .section > p.footnote { padding: 6px 2px 0; background: none; border: 0; color: var(--muted); }
 html[data-skin] .summary-foot > .footnote { color: var(--muted); }
+
+/* ------------------------------------------------------------ player head */
+
+/* The head card, key figures, favourites and tiles of the player page
+   (globals.css) in the cards of this layout, with headings like the
+   section titles. */
+html[data-skin] .p-hero { width: 100%; margin: 0 0 22px; }
+html[data-skin] .p-card { border-radius: var(--m-radius); }
+html[data-skin] .p-name, html[data-skin] .p-big b, html[data-skin] .p-kpis b { font-family: var(--m-font); color: var(--m-strong); }
+html[data-skin] .p-favs h3 { font: 700 13px/1.3 var(--m-font); color: var(--m-strong); }
+html[data-skin] .p-jump a, html[data-skin] .p-chip { border-color: var(--m-outline); }
+html[data-skin] td.career .rank-tip-btn, html[data-skin] td.ribbon-wall a { border-radius: var(--m-radius); }
+/* Section titles: a soft shade from the top. */
+html[data-skin] .block > h3, html[data-skin] .section-head {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--m-strong) 6%, var(--m-head)), var(--m-head));
+}
 
 /* Player banner (forum signature) and server banner, see README.md */
 html[data-skin] {
