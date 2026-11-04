@@ -155,6 +155,14 @@ Update: extract the new archive over the old folder. Removal: delete the
 folder, e.g. `sudo rm -r /var/lib/gamewe/web/overviews/css`; maps without a
 picture show the heatmap on a plain background again.
 
+gameWE-web newer than 1.7.3 can also draw a missing picture itself from the
+map on your FastDL server (Admin > Settings > Maps & events, off by default).
+It never replaces a picture that exists, so the archives work alongside it,
+and after a removal it draws the maps again while that switch is on. The
+switch needs a folder the site can write to, so in Docker mount the overviews
+folder without `:ro`; see "Fetching maps by FastDL" in
+[gameWE-web overviews/README.md](https://github.com/DennisPohlmann/gameWE-web/blob/main/overviews/README.md).
+
 ## Troubleshooting
 
 - **The template is not listed:** check the folder (Docker: the mount,
