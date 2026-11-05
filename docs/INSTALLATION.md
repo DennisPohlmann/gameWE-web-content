@@ -157,6 +157,8 @@ picture show the heatmap on a plain background again.
 
 gameWE-web newer than 1.7.3 can also draw a missing picture itself from the
 map on your FastDL server (Admin > Settings > Maps & events, off by default).
+A ranking whose maps are on another server sets its own address on its page
+(Admin > Rankings > the ranking > FastDL); empty uses the global one.
 It never replaces a picture that exists, so the archives work alongside it,
 and after a removal it draws the maps again while that switch is on. The
 switch needs a folder the site can write to, so in Docker mount the overviews
