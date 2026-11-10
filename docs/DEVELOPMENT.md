@@ -113,7 +113,9 @@ done
   a `fix` or `perf` a patch, `!`/`BREAKING CHANGE` a major release; other
   types give none. It writes `VERSION` and `CHANGELOG.md`, commits
   `chore(release): vX.Y.Z [skip ci]`, tags `vX.Y.Z` and creates the GitHub
-  release as a draft.
+  release as a draft. A run that makes no release (no such commit since the
+  last tag, or `main` moved on while the run was checking) fails at the step
+  `stop if nothing was released`.
 - **publish** (when a release was made): checks out the tag, packs it with
   that version, uploads every `.tar.gz` and its `.sha256` to the draft and
   then makes the release public, so it never shows up incomplete (if the
